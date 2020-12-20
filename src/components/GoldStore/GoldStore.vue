@@ -1,16 +1,16 @@
 <template>
     <div>
         <div class="game-info">
-            <p class="game-info__score">Wynik: {{ Math.round(game.score) }} węgla</p>
-            <p class="game-info__bonus">Na sekundę dostajesz {{ Math.abs(game.bonus.toFixed(1)) }} węgla.</p>
+            <p class="game-info__score">Wynik: {{ Math.round(score) }} węgla</p>
+            <p class="game-info__bonus">Na sekundę dostajesz {{ Math.abs(bonus.toFixed(1)) }} węgla.</p>
         </div>
 
         <div class="game-info__choose"> 
-            <p :class="['game-info__choose-text', {'active': game.buyOption}]" v-on:click="changeStoreOption($event,'buy')">KUP</p>
-            <p :class="['game-info__choose-text', {'active': !game.buyOption}]" v-on:click="changeStoreOption($event,'sell')">SPRZEDAJ</p>
+            <p :class="['game-info__choose-text', {'active': buyOption}]" v-on:click="changeStoreOption($event,'buy')">KUP</p>
+            <p :class="['game-info__choose-text', {'active': !buyOption}]" v-on:click="changeStoreOption($event,'sell')">SPRZEDAJ</p>
         </div>
         
-        <gold-factory-component v-for="(store, index) in game.stores"
+        <gold-factory-component v-for="(store, index) in stores"
         :id="store.id"
         :key="index"
         :buildName="store.buildName"
@@ -25,15 +25,19 @@
 
 <script>
 import GoldFactory from "./components/GoldFactory";
+import { mapGetters } from 'vuex';
 
 export default {
     components: {
         'gold-factory-component': GoldFactory
     },
     computed: {
-        game() {
-            return this.$store.state
-        },
+        ...mapGetters({
+            buyOption: 'getBuyOption',
+            score: 'getScore',
+            bonus: 'getBonus',
+            stores: 'getStores'
+        })
     },
     methods: {
         changeStoreOption: function(e, type) {

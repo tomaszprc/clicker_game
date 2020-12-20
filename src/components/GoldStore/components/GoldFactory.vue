@@ -1,8 +1,8 @@
 <template>
     <div class="factory" v-on:click="factoryClick($event, id)">
 
-        <div v-if="game.buyOption">
-            <div v-if="game.score < price" class="factory__disabled"></div>
+        <div v-if="buyOption">
+            <div v-if="score < price" class="factory__disabled"></div>
         </div>
 
         <div v-else>
@@ -19,7 +19,7 @@
                     
                     </p>
                     
-                    <p v-if="game.buyOption" class="factory__price">
+                    <p v-if="buyOption" class="factory__price">
                         {{price.toFixed(0)}} węgla / {{bonus.toFixed(2)}} węgla na 1 sec.
                     </p>
 
@@ -39,6 +39,7 @@
 <script>
 
 import minion from "../../../assets/minion.png";
+import { mapGetters } from 'vuex';
 
 export default {
     data: function() {
@@ -50,13 +51,13 @@ export default {
     },
     methods: {
         factoryClick: function(e, type) {
-            if (this.game.buyOption && this.game.score >= this.buildPrice)
+            if (this.buyOption && this.score >= this.buildPrice)
             {
                 this.$store.dispatch("buyBonus", {
                     type
                 })
             }
-            else if (!this.game.buyOption)
+            else if (!this.buyOption)
             {
                 this.$store.dispatch("sellBonus", {
                     type
@@ -65,9 +66,10 @@ export default {
         }
     },
     computed: {
-        game() {
-            return this.$store.state
-        }
+        ...mapGetters({
+            buyOption: 'getBuyOption',
+            score: 'getScore'
+        })
     },
     props: ["buildName", "image", "price", "level", "id", "bonus", "increaseBonus"]
 }

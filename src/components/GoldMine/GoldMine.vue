@@ -69,7 +69,7 @@ export default {
         canvasGoldMine.src = goldMine;
         
         canvasGoldMine.onload = function() {
-            context.drawImage(canvasGoldMine,   canvas.width / 2 - canvasGoldMine.width / 2, canvas.height / 2 - canvasGoldMine.height / 2);
+            context.drawImage(canvasGoldMine, canvas.width / 2 - canvasGoldMine.width / 2, canvas.height / 2 - canvasGoldMine.height / 2);
             context.drawImage(canvasGrass, canvas.width - canvasGrass.width - 0, canvas.height - canvasGrass.height - 0);
             context.fillRect(box.clickAreaX, box.clickAreaY, box.w, box.h);
         }

@@ -1,12 +1,12 @@
 <template>
   <div id="app" class="app">
     <div class="app__container"> 
+
       <gold-mine-component/>
 
       <div class="app__panel">
         <gold-store-component/>
       </div>
-
     </div>
   </div>
 </template>
@@ -20,6 +20,16 @@ export default {
   components: {
     'gold-mine-component': GoldMine,
     'gold-store-component': GoldStore
+  },
+  methods: {
+    getBonusGame: function() {
+       return this.$store.state.bonus
+    },
+  },
+  mounted: function() {
+    setInterval( () => {
+      this.$store.dispatch("addBonusPoints");  
+    }, 1000)
   }
 }
 </script>
@@ -29,10 +39,10 @@ export default {
   .app {
     width: 853px;
     max-height: 480px;
-    margin:0 auto;
+    margin: 0 auto;
 
     &__container {
-      display:flex;
+      display: flex;
       padding: 0 15px;
     }
 

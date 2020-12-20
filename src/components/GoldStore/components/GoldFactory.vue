@@ -1,22 +1,37 @@
 <template>
-    <div class="factory">
+    <div class="factory" v-on:click="factoryClick($event, id)">
 
-        <div class="factory__left">
-            <img class="img" :src="minionIcon" />
-            
-            <div class="factory__content"> 
-                <p class="factory__title">
-                    Nazwa
-                </p>
-
-                <p class="factory__price">
-                    15 złota
-                </p>
-            </div>
+        <div v-if="game.buyOption">
+            <div v-if="game.score < price" class="factory__disabled"></div>
         </div>
 
-        <div class="factory__right">
-            4
+        <div v-else>
+            <div v-if="!(level > 0)" class="factory__disabled"></div>
+        </div>
+
+        <div class="factory__container">
+            <div class="factory__left">
+                <img :src="require(`@/assets/${image}`)" />
+                
+                <div class="factory__content"> 
+                    <p class="factory__title">
+                        {{buildName}}
+                    
+                    </p>
+                    
+                    <p v-if="game.buyOption" class="factory__price">
+                        {{price.toFixed(0)}} węgla / {{bonus.toFixed(2)}} węgla na 1 sec.
+                    </p>
+
+                    <p v-else-if="level > 0" class="factory__price">
+                        Sprzedaj bonus za {{ ((price.toFixed(0) / increaseBonus) / 2).toFixed(0)  }} węgla
+                    </p>
+                </div>
+            </div>
+
+            <div class="factory__right">
+                {{ level }}
+            </div>
         </div>
     </div>
 </template>
@@ -28,22 +43,60 @@ import minion from "../../../assets/minion.png";
 export default {
     data: function() {
         return {
-            minionIcon: minion
+            minionIcon: minion,
+            buildPrice: this.price,
+            buildLevel: this.level
         }
-    }
+    },
+    methods: {
+        factoryClick: function(e, type) {
+            if (this.game.buyOption && this.game.score >= this.buildPrice)
+            {
+                this.$store.dispatch("buyBonus", {
+                    type
+                })
+            }
+            else if (!this.game.buyOption)
+            {
+                this.$store.dispatch("sellBonus", {
+                    type
+                })
+            }
+        }
+    },
+    computed: {
+        game() {
+            return this.$store.state
+        }
+    },
+    props: ["buildName", "image", "price", "level", "id", "bonus", "increaseBonus"]
 }
 </script>
 
 <style lang="scss">
 
+.button {
+    background: red;
+    font-size: 15px;
+    font-weight: bold;
+
+    &--black {
+        background: black;
+    }
+}
+
 .factory {
-    display: flex;
-    justify-content: space-between;
+    position: relative;
     margin: 15px 0;
-    padding: 0 15px;
     background: #aeaeae;
     cursor: pointer;
     
+    &__container {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 15px;
+    }
+
     &__left {
         display:flex;
     }
@@ -52,19 +105,20 @@ export default {
         display: flex;
         flex-direction: column;
         align-self: center;
+        padding-left: 15px;
     }
 
     &__title {
         padding-bottom: 5px;
         margin: 0;
-        font-size: 22px;
+        font-size: 20px;
         font-weight: bold;
         color: #580909;
     }
 
     &__price {
         margin: 0;
-        font-size: 18px;
+        font-size: 14px;
         font-weight: bold;
         color: #e8f739;
     }
@@ -74,10 +128,29 @@ export default {
         align-items: center;    
         font-size: 43px;
     }
-}
 
-.img {
-    width: 100px;
-    height: 100px;
+    &__disabled-buy {
+        background: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        cursor: not-allowed;
+    }
+
+    &__disabled-sell {
+        background: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        cursor: not-allowed;
+    }
+
+      &__disabled {
+        background: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        cursor: not-allowed;
+    }
 }
 </style>

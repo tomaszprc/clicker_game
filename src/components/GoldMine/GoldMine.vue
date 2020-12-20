@@ -3,7 +3,7 @@
         id="canvasGame" 
         width="400" 
         height="460" 
-        v-on:click="canvasClick"
+        v-on:click="mineClick"
     />
 </template>
 
@@ -31,8 +31,7 @@ export default {
                clickAreaX, clickAreaY
             };
        },
-
-       canvasClick: function(event){
+       mineClick: function(event){
             const canvas = document.getElementById('canvasGame');
 
             let {clickAreaX , clickAreaY} = this.getCursorPosition(canvas, event);
@@ -44,16 +43,15 @@ export default {
                 height: this.clickAreaHeight
             }
   
-            if(
-                clickPosition.positionX <= clickAreaX 
+            if( clickPosition.positionX <= clickAreaX 
                 && clickAreaX <= clickPosition.positionX+clickPosition.width 
                 && clickPosition.positionY <= clickAreaY 
                 && clickAreaY <= clickPosition.positionY+clickPosition.height
             ) 
             {
-                alert('You clicked me!');
+                this.$store.dispatch("click");
             }
-       }
+       },
     },
     mounted: function() {
         const canvas = document.getElementById('canvasGame');

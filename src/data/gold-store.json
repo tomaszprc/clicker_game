@@ -1,0 +1,29 @@
+[
+    {
+        "id" : "wooden-house",
+        "buildName": "Drewniana chatka",
+        "image": "wooden-house.png",
+        "price": 10,
+        "bonus": 0.1,
+        "level": 0,
+        "increaseBonus": 1.4
+    },
+    {
+        "id": "miner",
+        "buildName": "Górnik minion",
+        "image": "minion.png",
+        "price": 100,
+        "bonus": 0.5,
+        "level": 0,
+        "increaseBonus": 2
+    },
+    {
+        "id": "hercules",
+        "buildName": "Mocny herkules",
+        "image": "muscle.png",
+        "price": 400,
+        "bonus": 0.9,
+        "level": 0,
+        "increaseBonus": 2.5
+    }
+]

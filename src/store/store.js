@@ -12,7 +12,6 @@ export default new Vuex.Store({
         score: 0,
         bonus: 0,
         buyOption: true,
-        runInterval: false
     },
     mutations,
     actions

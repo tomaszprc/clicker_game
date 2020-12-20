@@ -34,7 +34,6 @@ export default {
 }
 </script>
 
-
 <style lang="scss">
   .app {
     width: 853px;

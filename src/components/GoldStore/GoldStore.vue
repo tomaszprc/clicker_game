@@ -1,9 +1,8 @@
 <template>
     <div>
-
         <div class="game-info">
             <p class="game-info__score">Wynik: {{ Math.round(game.score) }} węgla</p>
-            <p class="game-info__bonus">Na sekundę dostajesz {{ game.bonus.toFixed(1) }} węgla.</p>
+            <p class="game-info__bonus">Na sekundę dostajesz {{ Math.abs(game.bonus.toFixed(1)) }} węgla.</p>
         </div>
 
         <div class="game-info__choose"> 
@@ -23,7 +22,6 @@
         />
     </div>
 </template>
-
 
 <script>
 import GoldFactory from "./components/GoldFactory";
